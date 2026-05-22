@@ -1,28 +1,21 @@
-﻿# Bitácora de Transferencia (Handoffs)
-
-## Handoff #1 - Post Issues #1 y #2
+﻿## Handoff #2 - Post Issues #3 al #7
 **Fecha:** 22/05/2026
-**Issues completados:** #1 (AudioCapture), #2 (AudioPlayback)
+**Issues completados:** #3 (STT), #4 (LLM), #5 (TTS), #6 (Pipeline), #7 (Frontend)
 
 ### Componentes construidos
-- **AudioCapture**: Captura audio del micrófono con PyAudio + asyncio. Interfaz: start(), stop(), stream() (generador asíncrono).
-- **AudioPlayback**: Reproduce audio por altavoz con PyAudio + cola asíncrona. Interfaz: play(chunk), stop().
+- **STTTranscriber**: Interfaz abstracta + WhisperTranscriber + MockTranscriber (5 tests)
+- **LLMProcessor**: Interfaz abstracta + OpenAIProcessor + MockProcessor con historial (6 tests)
+- **TTSSynthesizer**: Interfaz abstracta + OpenAITTSSynthesizer + MockSynthesizer (4 tests)
+- **PipelineOrchestrator**: Conecta Mic->STT->LLM->TTS->Speaker (2 tests)
+- **FrontendApp**: Servidor aiohttp + WebSocket + UI HTML/CSS/JS
 
 ### Decisiones de arquitectura
-- PyAudio como librería de audio (disponible en Windows/Linux/Mac)
-- Patrón generador asíncrono para streaming de audio
-- asyncio.Event para control de flujo start/stop
-- Cola deque para buffer de reproducción encadenada
-
-### Issues pendientes
-- #3: Speech-to-Text (interfaz abstracta + adaptador API)
-- #4: Procesamiento LLM (interfaz abstracta + adaptador API)
-- #5: Text-to-Speech (interfaz abstracta + adaptador API)
-- #6: Orquestador del pipeline (conexión de componentes)
-- #7: Frontend web (WebSockets + UI)
-- #8: Integración final, logging y docs
+- Patrón ABC + Implementación real + Mock para cada módulo
+- Inyección de dependencias en PipelineOrchestrator
+- Frontend con HTML inline para compatibilidad Windows
+- WebSocket para comunicación bidireccional
 
 ### Estado del repositorio
-- 9 tests unitarios pasando (test_audio.py)
-- Estructura modular limpia sin acoplamientos
+- 26 tests unitarios pasando
+- Arquitectura modular con interfaces abstractas
 - Sin deuda técnica acumulada
