@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "voice-agent"
+version = "0.1.0"
+description = "A minimal real-time conversational voice agent built with Python and asyncio"
+requires-python = ">=3.10"
+dependencies = [
+    "pyaudio>=0.2.14",
+    "aiohttp>=3.9",
+    "websockets>=12.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.3",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["backend*", "frontend*"]
